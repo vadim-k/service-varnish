@@ -1,13 +1,13 @@
 FROM alpine:3.4
 
-MAINTAINER Leonid Makarov <leonid.makarov@blinkreaction.com>
+#
+# Forked from https://github.com/docksal/service-varnish
+#
 
-#Upgrade alpine to edge
+# Upgrade alpine to edge
 RUN sed -i -e 's/v3\.4/edge/g' /etc/apk/repositories
-
 RUN apk add --update --no-cache bash varnish automake make varnish-dev python openssl autoconf libtool curl py-docutils file && \
 	rm -rf /var/cache/apk/*
-
 RUN apk upgrade --update-cache --available
 
 RUN mkdir /usr/local/src
@@ -27,9 +27,7 @@ RUN cd /usr/local/src && \
 #
 # install libvmod-digest
 #
-
 ENV LIBVMOD_DIGEST_VERSION=1.0.1
-
 RUN cd /usr/local/src && \
     curl -sfLO https://github.com/varnish/libvmod-digest/archive/libvmod-digest-${LIBVMOD_DIGEST_VERSION}.tar.gz && \
     tar -xzf libvmod-digest-${LIBVMOD_DIGEST_VERSION}.tar.gz && \
